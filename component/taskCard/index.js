@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {
-     Card,CardContent,CardPriorityContent,CardPriority,CardTitleContent,CardTitle,CardDateContent, 
+     Card,CardContent,CardPriorityContent,CardPriority,CardCloseButton,CardCloseButtonIcon,CardTitleContent,CardTitle,CardDateContent, 
      CardDate,CardStatusContent,CardStatus
   } from './styles'
 
@@ -30,6 +30,10 @@ const TaskCard = (task) => {
                     <CardPriority>
                         {'P' + task.priority}
                     </CardPriority>
+                    <CardCloseButton onPress={() => alertMessage()}>
+                        <CardCloseButtonIcon source={require('../../images/close.png')}>
+                        </CardCloseButtonIcon>    
+                    </CardCloseButton>
                 </CardPriorityContent>
                 <CardTitleContent>
                     <CardTitle>

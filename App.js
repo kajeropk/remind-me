@@ -28,6 +28,7 @@ import TaskCard from './component/taskCard'
 
 import {
   TopView, TopText, TopButtonView, FilterButtonView, FilterButton, FilterIcon, SortButtonView, SortButton, SortIcon, TextButton, CardListView,
+  FloatButton,BottomView,BottomViewText,CardListViewButton,CardListViewText
 
 } from './styles'
 
@@ -101,7 +102,24 @@ const App = () => {
               TaskCard(task)
             )
           })}
+          <CardListViewButton>
+            <CardListViewText>
+              NO MORE TASKS
+            </CardListViewText>
+          </CardListViewButton>
         </CardListView>
+        <FloatButton
+          small
+          icon="plus"
+          color = "#FFFFFF"
+          onPress={() => alertMessage()}>
+         
+        </FloatButton>
+        <BottomView>
+          <BottomViewText>
+            REMIND ME
+          </BottomViewText>
+        </BottomView>
       {/* </SafeAreaView> */}
     </>
   );

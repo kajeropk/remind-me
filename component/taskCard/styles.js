@@ -36,6 +36,8 @@ export const CardContent = styled.View`
 
 export const CardPriorityContent = styled.View`
     margin-bottom: 10px;
+    justify-content:space-between;
+    flex-direction: row;
 
 `;
 
@@ -46,6 +48,15 @@ export const CardPriority = styled.Text`
     font-weight: bold;
     font-style: normal;
 `;
+
+export const CardCloseButton = styled.TouchableOpacity`
+
+
+`
+
+export const CardCloseButtonIcon = styled.Image`
+
+`
 
 export const CardTitleContent = styled.View`
     margin-bottom: 20px;
