@@ -1,35 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
   StatusBar,
   Alert,
 } from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 import TaskCard from './src/ui/components/taskCard'
 
 import {
   TopView, TopText, TopButtonView, FilterButtonView, FilterButton, FilterIcon, SortButtonView, SortButton, SortIcon, TextButton, CardListView,
   FloatButton,BottomView,BottomViewText,CardListViewButton,CardListViewText
-
 } from './styles'
 
 const App = () => {
