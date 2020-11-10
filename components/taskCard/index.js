@@ -16,7 +16,7 @@ import {
      CardDate,CardStatusContent,CardStatus
   } from './styles'
 
-const TaskCard = (task) => {
+const TaskCard = (task, key) => {
 
     const alertMessage = () => {
         Alert.alert('It is not available yet','Developers are working')
@@ -24,7 +24,7 @@ const TaskCard = (task) => {
 
     return(
         <>
-        <Card status={task.status} onPress={() => alertMessage()}>
+        <Card key={key} status={task.status} onPress={() => alertMessage()}>
             <CardContent>
                 <CardPriorityContent>
                     <CardPriority>

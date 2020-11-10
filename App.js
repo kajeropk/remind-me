@@ -24,7 +24,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import TaskCard from './component/taskCard'
+import TaskCard from './components/taskCard'
 
 import {
   TopView, TopText, TopButtonView, FilterButtonView, FilterButton, FilterIcon, SortButtonView, SortButton, SortIcon, TextButton, CardListView,
