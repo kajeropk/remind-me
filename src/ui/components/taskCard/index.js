@@ -31,7 +31,7 @@ const TaskCard = (task, key) => {
                         {'P' + task.priority}
                     </CardPriority>
                     <CardCloseButton onPress={() => alertMessage()}>
-                        <CardCloseButtonIcon source={require('../../images/close.png')}>
+                        <CardCloseButtonIcon source={require('../../assets/images/close.png')}>
                         </CardCloseButtonIcon>    
                     </CardCloseButton>
                 </CardPriorityContent>
