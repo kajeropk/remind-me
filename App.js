@@ -79,7 +79,7 @@ const App = () => {
         <TopButtonView>
           <FilterButtonView>
             <FilterButton onPress={() => alertMessage()} >
-              <FilterIcon source={require('../remindme/images/filter_black.png')}>
+              <FilterIcon source={require('./images/filter_black.png')}>
               </FilterIcon>
               <TextButton>
                 FILTER
@@ -88,7 +88,7 @@ const App = () => {
           </FilterButtonView>
           <SortButtonView>
             <SortButton  onPress={() => alertMessage()} >
-              <SortIcon   source={require('../remindme/images/sort_black.png')}>
+              <SortIcon   source={require('./images/sort_black.png')}>
               </SortIcon>
               <TextButton>
                 SORT
