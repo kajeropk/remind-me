@@ -3,6 +3,7 @@ import {Alert} from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+import moment from 'moment';
 import close from '../../assets/images/close.png';
 
 
@@ -42,7 +43,7 @@ const TaskCard = (task,key,deleteTaskAlertMessage) => {
             <CardTitle>{task.title}</CardTitle>
           </CardTitleContent>
           <CardDateContent>
-            <CardDate>{task.date}</CardDate>
+            <CardDate>{(moment(task.date).format('llll')).toUpperCase()}</CardDate>
           </CardDateContent>
           <CardStatusContent>
             <CardStatus status={task.status}>{task.status}</CardStatus>

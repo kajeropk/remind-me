@@ -121,7 +121,7 @@ export const DeleteIcon = styled.Image`
 export const SaveButton = styled.TouchableOpacity`
   height: 100%;
   flex-direction: row;
-  align-items: center;
+  align-items: center;  
 `;
 
 export const SaveIcon = styled.Image`

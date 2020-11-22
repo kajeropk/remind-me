@@ -95,9 +95,13 @@ const Home = ({navigation}) => {
    
   },[])
 
-  React.useEffect(()=>{
-    console.log(tasks)
-  },[tasks])
+  React.useEffect(() => {
+    const backHome = navigation.addListener('focus', () => {
+      getAllTasks()
+    });
+
+    return backHome;
+  }, [navigation]);
 
   return (
     <>

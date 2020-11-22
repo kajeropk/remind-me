@@ -3,8 +3,10 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import cancelBlack from '../../assets/images/close.png';
 import saveBlack from '../../assets/images/save_black.png';
+import blockBlack from '../../assets/images/block_black.png';
 import taskBlack from '../../assets/images/task_black.png';
 import * as _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
     Container,
@@ -33,21 +35,7 @@ import {
 
 const TaskRegister = ({ navigation }) => {
 
-    const taskDefault = {
-        id: '',
-        priority: '',
-        status: '',
-        title: '',
-        date: '',
-    }
-
-    const [newTask, setNewTask] = React.useState({
-        id: '',
-        priority: '',
-        status: '',
-        title: '',
-        date: '',
-    })
+    const [newTask, setNewTask] = React.useState({})
 
     const [priority, setPriority] = React.useState('1')
 
@@ -57,22 +45,38 @@ const TaskRegister = ({ navigation }) => {
 
     const [tasks, setTasks] = useState([]);
 
+
+    const goToHome = () => {
+        navigation.navigate('Home');
+    }
+
     const getAllTasks = () => {
         AsyncStorage.getItem('tasks', (err, result) => {
             setTasks(JSON.parse(result));
         });
     }
 
-    const setAllTasks = (mocks) => {
-        AsyncStorage.setItem('tasks', JSON.stringify(mocks));
+    const setAllTasks = () => {
+        AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+        goToHome();
     };
 
     const addNewTask = () => {
-        setTasks(tasks.push(newTask))
+        const modifiedTasks = tasks;
+        modifiedTasks.push(newTask)
+        setTasks(modifiedTasks)
+        setAllTasks()
+       
     }
     
     const constructNewTask = () => {
-
+        setNewTask({
+            id: uuidv4(),
+            priority: priority,
+            status: 'PENDENT',
+            title: title,
+            date: date,
+        })
     }
 
     React.useEffect(() => {
@@ -80,23 +84,22 @@ const TaskRegister = ({ navigation }) => {
     }, [])
 
     React.useEffect(() => {
-        console.log('tasks', tasks)
-    }, [tasks])
+        if(!_.isEmpty(newTask)){
+            addNewTask() 
+        }
 
-
-    React.useEffect(() => {
-        console.log('date', date)
-    }, [date])
+    }, [newTask])
 
     React.useEffect(() =>
 
         navigation.addListener('beforeRemove', (e) => {
-            if(_.isEqual(newTask,taskDefault)){
-                return;
+            if(!_.isEmpty(newTask)){
+                return
             }
-            
+
             e.preventDefault();
 
+        
             Alert.alert(
                 'Discard changes?',
                 'You have unsaved changes. Are you sure to discard them and leave the screen?',
@@ -110,7 +113,7 @@ const TaskRegister = ({ navigation }) => {
                 ]
             );
         }),
-        [navigation]
+        [navigation,newTask]
     );
 
     return (
@@ -149,7 +152,7 @@ const TaskRegister = ({ navigation }) => {
                     placeholder="Write a Task Title"
                     onChangeText={title => setTitle(title)}
                     selectionColor='black'
-                    underlineColor='#f8f8ff'
+                    underlineColor='black'
                 >
                 </CustomTextInput>
                 <TitleView>
@@ -168,8 +171,8 @@ const TaskRegister = ({ navigation }) => {
                         </DeleteButton>
                     </DeleteButtonView>
                     <SaveButtonView>
-                        <SaveButton onPress={() => { }}>
-                            <SaveIcon source={saveBlack} />
+                        <SaveButton disabled={title === '' || title.length < 3} onPress={() => constructNewTask()}>
+                            <SaveIcon source={(title === '' || title.length < 3) ? blockBlack : saveBlack} />
                             <TextButton>SAVE</TextButton>
                         </SaveButton>
                     </SaveButtonView>
