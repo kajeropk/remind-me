@@ -1,19 +1,6 @@
 import styled from 'styled-components/native';
 import {FAB} from 'react-native-paper';
 
-export const TopView = styled.View`
-  height: 44px;
-  background-color: black;
-  justify-content: center;
-`;
-export const TopText = styled.Text`
-  margin-left: 20px;
-  font-size: 16px;
-  color: white;
-  font-family: 'Red Hat Text';
-  letter-spacing: 1.25px;
-`;
-
 export const TopButtonView = styled.View`
   height: 68px;
   background-color: #ffffff;
@@ -73,7 +60,6 @@ export const BottomView = styled.View`
   justify-content: center;
 `;
 export const BottomViewText = styled.Text`
-  margin-left: 20px;
   font-size: 16px;
   color: white;
   font-family: 'Red Hat Text';
