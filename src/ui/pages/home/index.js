@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {StatusBar, Alert} from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
-// import { AsyncStorage } from 'react-native';
 import TaskCard from '../../components/taskCard';
 import filterBlack from '../../assets/images/filter_black.png';
 import sortBlack from '../../assets/images/sort_black.png';
@@ -25,52 +24,14 @@ import {
 } from './styles';
 
 const Home = ({navigation}) => {
-  const mock = [
-    {
-      id: '1',
-      priority: '1',
-      status: 'DONE',
-      title: 'MEETING',
-      date: 'FRI, OCTOBER 30th 2020, 12:00',
-    },
-    {
-      id: '2',
-      priority: '2',
-      status: 'PENDENT',
-      title: 'WORKOUT',
-      date: 'SAT, OCTOBER 31st 2020, 12:00',
-    },
-    {
-      id: '3',
-      priority: '3',
-      status: 'CANCELLED',
-      title: 'MEETING',
-      date: 'FRI, OCTOBER 31st 2020, 13:00',
-    },
-    {
-      id: '4',
-      priority: '2',
-      status: 'PENDENT',
-      title: 'COURSE',
-      date: 'FRI, OCTOBER 31st 2020, 17:00',
-    },
-    {
-      id: '5',
-      priority: '3',
-      status: 'CANCELLED',
-      title: 'CALL',
-      date: 'FRI, OCTOBER 30th 2020, 21:00',
-    },
-  ];
-
   const [tasks, setTasks] = useState([]);
 
   const alertMessage = () => {
     Alert.alert('It is not available yet', 'Developers are working');
   };
 
-  const setAllTasks =  (mocks) => {
-    AsyncStorage.setItem('tasks', JSON.stringify(mocks));
+  const setAllTasks =  (tasks) => {
+    AsyncStorage.setItem('tasks', JSON.stringify(tasks));
   };
 
   const getAllTasks = () => {
