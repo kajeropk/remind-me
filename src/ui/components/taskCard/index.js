@@ -1,8 +1,5 @@
 import React from 'react';
 import {Alert} from 'react-native';
-
-import AsyncStorage from '@react-native-community/async-storage';
-
 import moment from 'moment';
 import close from '../../assets/images/close.png';
 
@@ -22,16 +19,13 @@ import {
   CardStatus,
 } from './styles';
 
-const TaskCard = (task,key,deleteTaskAlertMessage) => {
+const TaskCard = (task,deleteTaskAlertMessage,editTask) => {
   const alertMessage = () => {
     Alert.alert('It is not available yet', 'Developers are working');
   };
   
-
-  return (
-    <>  
-      {/*  */}
-      <Card key={key} status={task.status} onPress={() => alertMessage()}>
+  return ( 
+      <Card key={task.id} status={task.status} onPress={() => editTask(task)}>
         <CardContent>
           <CardPriorityContent>
             <CardPriority>{`P${task.priority}`}</CardPriority>
@@ -50,7 +44,6 @@ const TaskCard = (task,key,deleteTaskAlertMessage) => {
           </CardStatusContent>
         </CardContent>
       </Card>
-    </>
   );
 };
 

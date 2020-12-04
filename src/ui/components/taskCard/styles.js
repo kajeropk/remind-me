@@ -49,7 +49,8 @@ export const CardPriority = styled.Text`
 
 export const CardCloseButton = styled.TouchableOpacity``;
 
-export const CardCloseButtonIcon = styled.Image``;
+export const CardCloseButtonIcon = styled.Image`
+`;
 
 export const CardTitleContent = styled.View`
   margin-bottom: 20px;
@@ -78,11 +79,11 @@ export const CardDate = styled.Text`
 `;
 
 export const CardStatusContent = styled.View`
-  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: flex-end;
 `;
 
 export const CardStatus = styled.Text`
-  align-self: flex-end;
   ${(props) => `color: ${getColorByStatus(props.status)}`}
   font-family: 'Red Hat Text';
   font-size: 12px;
@@ -90,3 +91,7 @@ export const CardStatus = styled.Text`
   font-weight: 500;
   font-style: normal;
 `;
+
+export const CardEditButton = styled.TouchableOpacity``;
+
+export const CardEditButtonIcon = styled.Image``;
