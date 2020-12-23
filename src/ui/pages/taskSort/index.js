@@ -33,6 +33,49 @@ import {
 const TaskSort = ({ navigation }) => {
 
     const [selectedSortOption, setSelectedSortOption] = useState([]);
+    const [originalSelectedSortOption, setOriginalSelectedSortOption] = useState([]);
+    const [hasEdit, setHasEdit] = useState(false)
+
+    React.useEffect(() => {
+        getSelectedSortOption()
+    }, [])
+
+    React.useEffect(() =>
+
+        navigation.addListener('beforeRemove', (e) => {
+           
+            if (_.isEqual(selectedSortOption, originalSelectedSortOption) || hasEdit) {
+                return
+            }
+
+            e.preventDefault();
+
+
+            Alert.alert(
+                'Discard changes?',
+                'You have unsaved changes. Are you sure to discard them and leave the screen?',
+                [
+                    { text: "Don't leave", style: 'cancel', onPress: () => { } },
+                    {
+                        text: 'Discard',
+                        style: 'destructive',
+                        onPress: () => navigation.dispatch(e.data.action),
+                    },
+                ]
+            );
+        }),
+        [navigation, selectedSortOption,originalSelectedSortOption, hasEdit]
+    );
+
+    React.useEffect(() => {
+
+        if (hasEdit) {
+            AsyncStorage.setItem('sortOption', JSON.stringify(selectedSortOption));
+            goToHome();
+        }
+
+    }, [hasEdit])
+
 
     const goToHome = () => {
         navigation.navigate('Home');
@@ -41,25 +84,28 @@ const TaskSort = ({ navigation }) => {
     const getSelectedSortOption = () => {
         AsyncStorage.getItem('sortOption', (err, result) => {
             if (result && result.length > 0) {
-              setSelectedSortOption(JSON.parse(result));
+                setSelectedSortOption(JSON.parse(result));
+                setOriginalSelectedSortOption(JSON.parse(result));
             }
             else {
-              setSelectedSortOption('status-dpc');
+                setSelectedSortOption('status-dpc');
+                setOriginalSelectedSortOption('status-dpc');
             }
-      
-          });
+
+        });
     }
 
     const setSortOption = () => {
-        selectedSortOption
-        AsyncStorage.setItem('sortOption', JSON.stringify(selectedSortOption));
-        goToHome();
+        setHasEdit(true);
     };
 
+    const verifyIfIsEqual = () => {
+        
+        if (_.isEqual(selectedSortOption, originalSelectedSortOption) || hasEdit) {
+            return true
+        }
+    }
 
-    React.useEffect(() => {
-        getSelectedSortOption()
-    }, [])
 
 
     return (
@@ -123,8 +169,8 @@ const TaskSort = ({ navigation }) => {
                         </DeleteButton>
                     </DeleteButtonView>
                     <SaveButtonView>
-                        <SaveButton disabled={false} onPress={() => setSortOption()}>
-                            <SaveIcon source={false ? blockBlack : saveBlack} />
+                        <SaveButton disabled={verifyIfIsEqual()} onPress={() => setSortOption()}>
+                            <SaveIcon source={verifyIfIsEqual() ? blockBlack : saveBlack} />
                             <TextButton>SAVE</TextButton>
                         </SaveButton>
                     </SaveButtonView>

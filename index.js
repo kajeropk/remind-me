@@ -40,7 +40,7 @@ export default function App() {
                     name="TaskRegister"
                     component={TaskRegister}
                     options={{
-                        title: 'NEW TASK REGISTER',
+                        title: 'NEW TASK REGISTRATION',
                         headerStyle: {
                             backgroundColor: 'black',
                             height: 44,

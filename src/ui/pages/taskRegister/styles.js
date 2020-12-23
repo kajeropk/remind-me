@@ -84,8 +84,6 @@ export const CustomTextInput = styled(TextInput)`
     background-color: #f8f8ff;
     padding-left:10px;
     padding-right:10px;
-    padding-top:10px;
-    padding-bottom:10px;
 `;
 
 export const CustomDatePicker = styled(DatePicker)`
@@ -94,10 +92,9 @@ export const CustomDatePicker = styled(DatePicker)`
 
 
 export const ButtonOptionsView = styled.View`
-  position: absolute;
+  position: relative;
   min-height: 62px;
   max-height: 68px;
-  bottom: 44px;
   width: 100%;
   background-color: #ffffff;
   justify-content: space-between;
@@ -139,20 +136,3 @@ export const TextButton = styled.Text`
   letter-spacing: 1.25px;
 `;
 
-export const BottomView = styled.View`
-    min-height: 38px;
-    max-height: 44px;
-    position: absolute;
-    bottom: 0;
-    background-color: black;
-    justify-content: center;
-    width: 100%;
-`;
-
-export const BottomViewText = styled.Text`
-    font-size: 16px;
-    color: #ffffff;
-    font-family: 'Red Hat Text';
-    align-self: center;
-    letter-spacing: 1.25px;
-`;

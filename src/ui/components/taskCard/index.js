@@ -34,7 +34,7 @@ const TaskCard = (task,deleteTaskAlertMessage,editTask) => {
             </CardCloseButton>
           </CardPriorityContent>
           <CardTitleContent>
-            <CardTitle>{task.title}</CardTitle>
+            <CardTitle>{task.title.length > 20 ? task.title.slice(0,20).concat("...") : task.title}</CardTitle>
           </CardTitleContent>
           <CardDateContent>
             <CardDate>{(moment(task.date).format('llll')).toUpperCase()}</CardDate>

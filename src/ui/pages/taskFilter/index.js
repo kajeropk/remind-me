@@ -33,6 +33,49 @@ import {
 const TaskFilter = ({ navigation }) => {
 
     const [selectedFilterOption, setSelectedFilterOption] = useState([]);
+    const [originalSelectedFilterOption, setOriginalSelectedFilterOption] = useState([]);
+    const [hasEdit, setHasEdit] = useState(false)
+
+    React.useEffect(() => {
+        getSelectedFilterOption()
+    }, [])
+
+    React.useEffect(() =>
+
+        navigation.addListener('beforeRemove', (e) => {
+
+            if (_.isEqual(selectedFilterOption, originalSelectedFilterOption) || hasEdit) {
+                return
+            }
+
+            e.preventDefault();
+
+
+            Alert.alert(
+                'Discard changes?',
+                'You have unsaved changes. Are you sure to discard them and leave the screen?',
+                [
+                    { text: "Don't leave", style: 'cancel', onPress: () => { } },
+                    {
+                        text: 'Discard',
+                        style: 'destructive',
+                        onPress: () => navigation.dispatch(e.data.action),
+                    },
+                ]
+            );
+        }),
+        [navigation, selectedFilterOption, originalSelectedFilterOption, hasEdit]
+    );
+
+    React.useEffect(() => {
+
+        if (hasEdit) {
+            AsyncStorage.setItem('filterOption', JSON.stringify(selectedFilterOption));
+            goToHome();
+        }
+
+    }, [hasEdit])
+
 
     const goToHome = () => {
         navigation.navigate('Home');
@@ -41,25 +84,27 @@ const TaskFilter = ({ navigation }) => {
     const getSelectedFilterOption = () => {
         AsyncStorage.getItem('filterOption', (err, result) => {
             if (result && result.length > 0) {
-              setSelectedFilterOption(JSON.parse(result));
+                setSelectedFilterOption(JSON.parse(result));
+                setOriginalSelectedFilterOption(JSON.parse(result));
             }
             else {
-              setSelectedFilterOption('none');
+                setSelectedFilterOption('none');
+                setOriginalSelectedFilterOption('status-dpc');
             }
-      
-          });
+
+        });
     }
 
     const setFilterOption = () => {
-        selectedFilterOption
-        AsyncStorage.setItem('filterOption', JSON.stringify(selectedFilterOption));
-        goToHome();
+        setHasEdit(true);
     };
 
-
-    React.useEffect(() => {
-        getSelectedFilterOption()
-    }, [])
+    const verifyIfIsEqual = () => {
+        
+        if (_.isEqual(selectedFilterOption, originalSelectedFilterOption) || hasEdit) {
+            return true
+        }
+    }
 
 
     return (
@@ -122,8 +167,8 @@ const TaskFilter = ({ navigation }) => {
                         </DeleteButton>
                     </DeleteButtonView>
                     <SaveButtonView>
-                        <SaveButton disabled={false} onPress={() => setFilterOption()}>
-                            <SaveIcon source={false ? blockBlack : saveBlack} />
+                        <SaveButton disabled={verifyIfIsEqual()} onPress={() => setFilterOption()}>
+                            <SaveIcon source={verifyIfIsEqual() ? blockBlack : saveBlack} />
                             <TextButton>SAVE</TextButton>
                         </SaveButton>
                     </SaveButtonView>

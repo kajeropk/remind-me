@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import cancelBlack from '../../assets/images/close.png';
 import saveBlack from '../../assets/images/save_black.png';
@@ -28,8 +28,7 @@ import {
     SaveButton,
     SaveIcon,
     TextButton,
-    BottomView,
-    BottomViewText,
+
 } from './styles';
 
 const TaskEdit = ({ route, navigation }) => {
@@ -56,13 +55,13 @@ const TaskEdit = ({ route, navigation }) => {
     const getAllTasks = () => {
         AsyncStorage.getItem('tasks', (err, result) => {
             if (result && result.length > 0) {
-              setTasks(JSON.parse(result));
+                setTasks(JSON.parse(result));
             }
             else {
-              setTasks([]);
+                setTasks([]);
             }
-      
-          });
+
+        });
     }
 
     const setAllTasks = (modifiedTasks) => {
@@ -77,7 +76,7 @@ const TaskEdit = ({ route, navigation }) => {
     const verifyIfIsEqual = () => {
         let editedTask = {
             id: originalTask.id, priority: priority, status: status, title: title, date: date.toISOString()
-        }    
+        }
 
         if (_.isEqual(originalTask, editedTask) || hasEdit) {
             return true
@@ -119,7 +118,7 @@ const TaskEdit = ({ route, navigation }) => {
     );
 
     React.useEffect(() => {
-        if(hasEdit){
+        if (hasEdit) {
             let modifiedTasks = tasks;
             modifiedTasks = modifiedTasks.map((task) => {
                 if (task.id === originalTask.id) {
@@ -136,89 +135,95 @@ const TaskEdit = ({ route, navigation }) => {
 
     return (
         <>
-
-            <Container>
-                <TopView>
-                    <TaskIcon source={edit} />
-                </TopView>
-                <TitleView>
-                    <Title status={status}>{status + " STATUS"}</Title>
-                </TitleView>
-                <CustomRadioButtonGroup onValueChange={newStatus => setStatus(newStatus)} value={status}>
-                    <CustomRadioButtonContainer>
-                        <CustomRadioButtonView>
-                            <CustomRadioButtonText>C</CustomRadioButtonText>
-                            <CustomRadioButton color="#E92555" value='CANCELLED' />
-                        </CustomRadioButtonView>
-                        <CustomRadioButtonView>
-                            <CustomRadioButtonText>P</CustomRadioButtonText>
-                            <CustomRadioButton color="#E9D525" value="PENDENT" />
-                        </CustomRadioButtonView>
-                        <CustomRadioButtonView>
-                            <CustomRadioButtonText>D</CustomRadioButtonText>
-                            <CustomRadioButton color="#009E0A" value="DONE" />
-                        </CustomRadioButtonView>
-                    </CustomRadioButtonContainer>
-                </CustomRadioButtonGroup>
-                <TitleView>
-                    <Title>PRIORITY</Title>
-                </TitleView>
-                <CustomRadioButtonGroup onValueChange={newPriority => setPriority(newPriority)} value={priority}>
-                    <CustomRadioButtonContainer>
-                        <CustomRadioButtonView>
-                            <CustomRadioButtonText>P1</CustomRadioButtonText>
-                            <CustomRadioButton color="black" value='1' />
-                        </CustomRadioButtonView>
-                        <CustomRadioButtonView>
-                            <CustomRadioButtonText>P2</CustomRadioButtonText>
-                            <CustomRadioButton color="black" value="2" />
-                        </CustomRadioButtonView>
-                        <CustomRadioButtonView>
-                            <CustomRadioButtonText>P3</CustomRadioButtonText>
-                            <CustomRadioButton color="black" value="3" />
-                        </CustomRadioButtonView>
-                    </CustomRadioButtonContainer>
-                </CustomRadioButtonGroup>
-                <TitleView>
-                    <Title>TITLE</Title>
-                </TitleView>
-                <CustomTextInput
-                    label="Title"
-                    value={title}
-                    placeholder="Write a Task Title"
-                    onChangeText={title => setTitle(title)}
-                    selectionColor='black'
-                    underlineColor='black'
-                >
-                </CustomTextInput>
-                <TitleView>
-                    <Title>DATE</Title>
-                </TitleView>
-                <CustomDatePicker
-                    date={date}
-                    onDateChange={setDate}
-                    fadeToColor='#f8f8ff'
-                />
-                <ButtonOptionsView>
-                    <DeleteButtonView>
-                        <DeleteButton onPress={() => navigation.navigate('Home')}>
-                            <DeleteIcon source={cancelBlack} />
-                            <TextButton>CANCEL</TextButton>
-                        </DeleteButton>
-                    </DeleteButtonView>
-                    <SaveButtonView>
-                        <SaveButton disabled={title === '' || title.length < 3  || verifyIfIsEqual()} onPress={() => editTask()}>
-                            <SaveIcon source={(title === '' || title.length < 3 || verifyIfIsEqual()) ? blockBlack : saveBlack} />
-                            <TextButton>SAVE</TextButton>
-                        </SaveButton>
-                    </SaveButtonView>
-                </ButtonOptionsView>
-                <BottomView>
-                    <BottomViewText>REMIND ME</BottomViewText>
-                </BottomView>
-            </Container>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior="padding"
+            >
+                <Container>
+                    <TopView>
+                        <TaskIcon source={edit} />
+                    </TopView>
+                    <TitleView>
+                        <Title status={status}>{status + " STATUS"}</Title>
+                    </TitleView>
+                    <CustomRadioButtonGroup onValueChange={newStatus => setStatus(newStatus)} value={status}>
+                        <CustomRadioButtonContainer>
+                            <CustomRadioButtonView>
+                                <CustomRadioButtonText>C</CustomRadioButtonText>
+                                <CustomRadioButton color="#E92555" value='CANCELLED' />
+                            </CustomRadioButtonView>
+                            <CustomRadioButtonView>
+                                <CustomRadioButtonText>P</CustomRadioButtonText>
+                                <CustomRadioButton color="#E9D525" value="PENDENT" />
+                            </CustomRadioButtonView>
+                            <CustomRadioButtonView>
+                                <CustomRadioButtonText>D</CustomRadioButtonText>
+                                <CustomRadioButton color="#009E0A" value="DONE" />
+                            </CustomRadioButtonView>
+                        </CustomRadioButtonContainer>
+                    </CustomRadioButtonGroup>
+                    <TitleView>
+                        <Title>PRIORITY</Title>
+                    </TitleView>
+                    <CustomRadioButtonGroup onValueChange={newPriority => setPriority(newPriority)} value={priority}>
+                        <CustomRadioButtonContainer>
+                            <CustomRadioButtonView>
+                                <CustomRadioButtonText>P1</CustomRadioButtonText>
+                                <CustomRadioButton color="black" value='1' />
+                            </CustomRadioButtonView>
+                            <CustomRadioButtonView>
+                                <CustomRadioButtonText>P2</CustomRadioButtonText>
+                                <CustomRadioButton color="black" value="2" />
+                            </CustomRadioButtonView>
+                            <CustomRadioButtonView>
+                                <CustomRadioButtonText>P3</CustomRadioButtonText>
+                                <CustomRadioButton color="black" value="3" />
+                            </CustomRadioButtonView>
+                        </CustomRadioButtonContainer>
+                    </CustomRadioButtonGroup>
+                    <TitleView>
+                        <Title>TITLE</Title>
+                    </TitleView>
+                    <CustomTextInput
+                        label="Title"
+                        value={title}
+                        placeholder="Write a Task Title"
+                        onChangeText={title => setTitle(title)}
+                        selectionColor='black'
+                        underlineColor='black'
+                    >
+                    </CustomTextInput>
+                    <TitleView>
+                        <Title>DATE</Title>
+                    </TitleView>
+                    <CustomDatePicker
+                        date={date}
+                        onDateChange={setDate}
+                        fadeToColor='#f8f8ff'
+                    />
+                    <ButtonOptionsView>
+                        <DeleteButtonView>
+                            <DeleteButton onPress={() => navigation.navigate('Home')}>
+                                <DeleteIcon source={cancelBlack} />
+                                <TextButton>CANCEL</TextButton>
+                            </DeleteButton>
+                        </DeleteButtonView>
+                        <SaveButtonView>
+                            <SaveButton disabled={title === '' || title.length < 3 || verifyIfIsEqual()} onPress={() => editTask()}>
+                                <SaveIcon source={(title === '' || title.length < 3 || verifyIfIsEqual()) ? blockBlack : saveBlack} />
+                                <TextButton>SAVE</TextButton>
+                            </SaveButton>
+                        </SaveButtonView>
+                    </ButtonOptionsView>
+                </Container>
+            </KeyboardAvoidingView>
         </>
     )
 }
-
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#eaeaea"
+    },
+});
 export default TaskEdit;
