@@ -52,7 +52,13 @@ const TaskRegister = ({ navigation }) => {
 
     const getAllTasks = () => {
         AsyncStorage.getItem('tasks', (err, result) => {
-            setTasks(JSON.parse(result));
+            if (result && result.length > 0) {
+                setTasks(JSON.parse(result));
+            }
+            else {
+                setTasks([]);
+            }
+
         });
     }
 
@@ -66,9 +72,9 @@ const TaskRegister = ({ navigation }) => {
         modifiedTasks.push(newTask)
         setTasks(modifiedTasks)
         setAllTasks()
-       
+
     }
-    
+
     const constructNewTask = () => {
         setNewTask({
             id: uuidv4(),
@@ -84,8 +90,8 @@ const TaskRegister = ({ navigation }) => {
     }, [])
 
     React.useEffect(() => {
-        if(!_.isEmpty(newTask)){
-            addNewTask() 
+        if (!_.isEmpty(newTask)) {
+            addNewTask()
         }
 
     }, [newTask])
@@ -93,13 +99,13 @@ const TaskRegister = ({ navigation }) => {
     React.useEffect(() =>
 
         navigation.addListener('beforeRemove', (e) => {
-            if(!_.isEmpty(newTask)){
+            if (!_.isEmpty(newTask)) {
                 return
             }
 
             e.preventDefault();
 
-        
+
             Alert.alert(
                 'Discard changes?',
                 'You have unsaved changes. Are you sure to discard them and leave the screen?',
@@ -113,7 +119,7 @@ const TaskRegister = ({ navigation }) => {
                 ]
             );
         }),
-        [navigation,newTask]
+        [navigation, newTask]
     );
 
     return (
@@ -122,8 +128,8 @@ const TaskRegister = ({ navigation }) => {
                 <TopView>
                     <TaskIcon source={taskBlack} />
                 </TopView>
-              
-                
+
+
                 <TitleView>
                     <Title>PRIORITY</Title>
                 </TitleView>

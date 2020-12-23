@@ -6,6 +6,8 @@ import TaskCard from '../../components/taskCard';
 import filterBlack from '../../assets/images/filter_black.png';
 import sortBlack from '../../assets/images/sort_black.png';
 import AnimatedLoader from 'react-native-animated-loader';
+import TaskSortHelper from '../../helpers/taskSortHelper'
+import TaskFilterHelper from '../../helpers/taskFilterHelper'
 
 import {
   TopButtonView,
@@ -27,11 +29,15 @@ import {
 const Home = ({ navigation }) => {
   const [tasks, setTasks] = React.useState([]);
 
+  const [selectedSortOption, setSelectedSortOption] = React.useState([]);
+
+  const [selectedFilterOption, setSelectedFilterOption] = React.useState([]);
+
+  const [displayedTasks, setDisplayedTasks] = React.useState([]);
+
+
   // const [visible, setVisible] = React.useState(true);
 
-  const alertMessage = () => {
-    Alert.alert('It is not available yet', 'Developers are working');
-  };
 
   const setAllTasks = (tasks) => {
     AsyncStorage.setItem('tasks', JSON.stringify(tasks));
@@ -39,10 +45,127 @@ const Home = ({ navigation }) => {
 
   const getAllTasks = () => {
     AsyncStorage.getItem('tasks', (err, result) => {
-      setTasks(JSON.parse(result));
+      if (result && result.length > 0) {
+        setTasks(JSON.parse(result));
+      }
+      else {
+        setTasks([]);
+      }
+
     });
     // setVisible(true)
 
+  }
+
+  const applyFilterAndSort = () => {
+
+    if (tasks && tasks.length > 0) {
+      let modifiedTasks = tasks;
+
+      if (selectedFilterOption && selectedFilterOption.length > 0) {
+
+
+        switch (selectedFilterOption) {
+          case 'none':
+
+            break;
+
+          case 'status-cancelled':
+
+            modifiedTasks = TaskFilterHelper.filterByCancelledStatus(modifiedTasks)
+            break;
+
+          case 'status-pendent':
+            modifiedTasks = TaskFilterHelper.filterByPendentStatus(modifiedTasks)
+            break;
+
+          case 'status-done':
+            modifiedTasks = TaskFilterHelper.filterByDoneStatus(modifiedTasks)
+            break;
+
+          case 'priority-1':
+            modifiedTasks = TaskFilterHelper.filterByPriority1(modifiedTasks)
+            break;
+
+          case 'priority-2':
+            modifiedTasks = TaskFilterHelper.filterByPriority2(modifiedTasks)
+            break;
+
+          case 'priority-3':
+            modifiedTasks = TaskFilterHelper.filterByPriority3(modifiedTasks)
+            break;
+        }
+      }
+
+      if (selectedSortOption && selectedFilterOption.length > 0) {
+        switch (selectedSortOption) {
+          case 'status-pdc':
+            modifiedTasks = TaskSortHelper.orderByPDCStatus(modifiedTasks);
+            break;
+
+          case 'status-cpd':
+            modifiedTasks = TaskSortHelper.orderByCPDStatus(modifiedTasks);
+            break;
+
+          case 'status-dpc':
+            modifiedTasks = TaskSortHelper.orderByDPCStatus(modifiedTasks);
+            break;
+
+          case 'priority-lth':
+            modifiedTasks = TaskSortHelper.orderByLTHPriority(modifiedTasks);
+            break;
+
+          case 'priority-htl':
+            modifiedTasks = TaskSortHelper.orderByHTLPriority(modifiedTasks);
+            break;
+
+          case 'title-atz':
+            modifiedTasks = TaskSortHelper.orderByATZTitle(modifiedTasks);
+            break;
+
+          case 'title-zta':
+            modifiedTasks = TaskSortHelper.orderByZTATitle(modifiedTasks);
+            break;
+
+          case 'date-mr':
+            modifiedTasks = TaskSortHelper.orderByMRDate(modifiedTasks);
+            break;
+
+          case 'date-o':
+            modifiedTasks = TaskSortHelper.orderByODate(modifiedTasks);
+            break;
+
+        }
+      }
+
+      setDisplayedTasks(modifiedTasks);
+    }
+
+  }
+
+  const getSelectedFilterOption = () => {
+    AsyncStorage.getItem('filterOption', (err, result) => {
+      if (result && result.length > 0) {
+        setSelectedFilterOption(JSON.parse(result));
+      }
+      else {
+        setSelectedFilterOption('none' );
+      }
+
+    });
+  }
+
+  const getSelectedSortOption = () => {
+    AsyncStorage.getItem('sortOption', (err, result) => {
+      if (result && result.length > 0) {
+        setSelectedSortOption(JSON.parse(result));
+      }
+      else {
+        setSelectedSortOption('status-dpc');
+      }
+
+    });
+   
   }
 
   const deleteTask = (taskToDelete) => {
@@ -60,16 +183,25 @@ const Home = ({ navigation }) => {
   };
 
   React.useEffect(() => {
-    getAllTasks()
+    getAllTasks();
+    getSelectedFilterOption();
+    getSelectedSortOption();
   }, [])
 
   React.useEffect(() => {
     const backHome = navigation.addListener('focus', () => {
-      getAllTasks()
+      getAllTasks();
+      getSelectedFilterOption();
+      getSelectedSortOption();
     });
 
     return backHome;
   }, [navigation]);
+
+  React.useEffect(() => {
+    applyFilterAndSort();
+  }, [selectedSortOption, selectedFilterOption, tasks]);
+
 
   // React.useEffect(() => {
   //   // if(visible){
@@ -92,20 +224,20 @@ const Home = ({ navigation }) => {
       {/* <SafeAreaView> */}
       <TopButtonView>
         <FilterButtonView>
-          <FilterButton onPress={() => alertMessage()}>
+          <FilterButton onPress={() => navigation.navigate('TaskFilter')}>
             <FilterIcon source={filterBlack} />
             <TextButton>FILTER</TextButton>
           </FilterButton>
         </FilterButtonView>
         <SortButtonView>
-          <SortButton onPress={() => alertMessage()}>
+          <SortButton onPress={() => navigation.navigate('TaskSort')}>
             <SortIcon source={sortBlack} />
             <TextButton>SORT</TextButton>
           </SortButton>
         </SortButtonView>
       </TopButtonView>
       <CardListView contentInsetAdjustmentBehavior="automatic">
-        {tasks.length > 0 && tasks.map((task) => TaskCard(task, deleteTaskAlertMessage, editTask))}
+        {displayedTasks.length > 0 && displayedTasks.map((task) => TaskCard(task, deleteTaskAlertMessage, editTask))}
         <CardListViewButton>
           <CardListViewText>NO MORE TASKS</CardListViewText>
         </CardListViewButton>

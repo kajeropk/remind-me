@@ -1,24 +1,5 @@
 import styled from 'styled-components/native';
-import { RadioButton } from 'react-native-paper';
-import { TextInput } from 'react-native-paper';
-import DatePicker from 'react-native-date-picker';
-
-const getColorByStatus = (status) => {
-  switch (status) {
-    case 'CANCELLED':
-      return `#E92555`;
-
-    case 'DONE':
-      return `#009E0A`;
-
-    case 'PENDENT':
-      return `#E9D525`;
-
-    default:
-      return `black`
-  }
-};
-
+import {RadioButton} from 'react-native-paper';
 
 
 export const Container = styled.View`
@@ -27,8 +8,7 @@ export const Container = styled.View`
     flex:1;
 `;
 export const TopView = styled.View`
-    min-height: 30px;
-    max-height: 36px;
+    height: 68px;
     bottom: 0;
     background-color: #f8f8ff;
     justify-content: center;
@@ -49,8 +29,7 @@ export const ViewText = styled.Text`
 
 export const TitleView = styled.View`
     background-color: #ffffff;
-    min-height: 46px;
-    max-height: 52px;
+    height: 52px;
     justify-content: center;
 `;
 
@@ -60,15 +39,15 @@ export const Title = styled.Text`
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 1.25px;
-    ${(props) => `color: ${getColorByStatus(props.status)}`}
+    color: black;
 `;
 
 export const CustomRadioButtonContainer = styled.View`
-    flex-direction: row;
+    /* flex-direction: row; */
     justify-content: space-between;
     background-color: #f8f8ff;
-    padding-top:10px;
-    padding-bottom:10px;
+    padding-top:20px;
+    padding-bottom:20px;
 `;
 
 export const CustomRadioButtonView = styled.View`
@@ -79,9 +58,9 @@ export const CustomRadioButtonView = styled.View`
 
 export const CustomRadioButtonText = styled.Text`
     font-family: 'Red Hat Text';
-    font-size: 18px;
+    font-size: 16px;
     letter-spacing: 1.25px;
-    font-weight: bold;
+    font-weight: normal;
     font-style: normal;
     align-self: center;
 `;
@@ -94,24 +73,9 @@ export const CustomRadioButtonGroup = styled(RadioButton.Group)`
 export const CustomRadioButton = styled(RadioButton)`
 `;
 
-
-export const CustomTextInput = styled(TextInput)`
-    background-color: #f8f8ff;
-    padding-left:10px;
-    padding-right:10px;
-    padding-top:10px;
-    padding-bottom:10px;
-`;
-
-export const CustomDatePicker = styled(DatePicker)`
-    width:100%; 
-`;
-
-
 export const ButtonOptionsView = styled.View`
   position: absolute;
-  min-height: 62px;
-  max-height: 68px;
+  height: 68px;
   bottom: 44px;
   width: 100%;
   background-color: #ffffff;
@@ -155,15 +119,13 @@ export const TextButton = styled.Text`
 `;
 
 export const BottomView = styled.View`
-    min-height: 38px;
-    max-height: 44px;
+    height: 44px;
     position: absolute;
     bottom: 0;
     background-color: black;
     justify-content: center;
     width: 100%;
 `;
-
 export const BottomViewText = styled.Text`
     font-size: 16px;
     color: #ffffff;

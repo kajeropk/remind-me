@@ -55,8 +55,14 @@ const TaskEdit = ({ route, navigation }) => {
 
     const getAllTasks = () => {
         AsyncStorage.getItem('tasks', (err, result) => {
-            setTasks(JSON.parse(result));
-        });
+            if (result && result.length > 0) {
+              setTasks(JSON.parse(result));
+            }
+            else {
+              setTasks([]);
+            }
+      
+          });
     }
 
     const setAllTasks = (modifiedTasks) => {
@@ -64,16 +70,23 @@ const TaskEdit = ({ route, navigation }) => {
         goToHome();
     };
 
-
     const editTask = () => {
         setHasEdit(true)
+    }
+
+    const verifyIfIsEqual = () => {
+        let editedTask = {
+            id: originalTask.id, priority: priority, status: status, title: title, date: date.toISOString()
+        }    
+
+        if (_.isEqual(originalTask, editedTask) || hasEdit) {
+            return true
+        }
     }
 
     React.useEffect(() => {
         getAllTasks()
     }, [])
-
-
 
     React.useEffect(() =>
 
@@ -120,18 +133,6 @@ const TaskEdit = ({ route, navigation }) => {
         }
     }, [hasEdit])
 
-
-    React.useEffect(() => {
-        if ((date > Date.now() && status === 'DONE')) {
-            Alert.alert(
-                'Take care!',
-                'A task in the future cannot have the status done!',
-                [
-                    { text: "I understand it", style: 'cancel', onPress: () => setStatus('PENDENT') }]
-            );
-
-        }
-    }, [status, date])
 
     return (
         <>
@@ -206,8 +207,8 @@ const TaskEdit = ({ route, navigation }) => {
                         </DeleteButton>
                     </DeleteButtonView>
                     <SaveButtonView>
-                        <SaveButton disabled={title === '' || title.length < 3 || (date > Date.now() && status === 'DONE')} onPress={() => editTask()}>
-                            <SaveIcon source={(title === '' || title.length < 3 || (date > Date.now() && status === 'DONE')) ? blockBlack : saveBlack} />
+                        <SaveButton disabled={title === '' || title.length < 3  || verifyIfIsEqual()} onPress={() => editTask()}>
+                            <SaveIcon source={(title === '' || title.length < 3 || verifyIfIsEqual()) ? blockBlack : saveBlack} />
                             <TextButton>SAVE</TextButton>
                         </SaveButton>
                     </SaveButtonView>

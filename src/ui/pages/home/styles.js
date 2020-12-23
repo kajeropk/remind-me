@@ -76,7 +76,6 @@ export const CardListViewButton = styled.View`
   justify-content: center;
 `;
 export const CardListViewText = styled.Text`
-  margin-left: 20px;
   font-size: 16px;
   color: #bcb8b8;
   font-family: 'Red Hat Text';

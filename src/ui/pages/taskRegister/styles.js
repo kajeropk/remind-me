@@ -6,14 +6,13 @@ import DatePicker from 'react-native-date-picker';
 
 
 export const Container = styled.View`
-    justify-content:space-between;
     flex-direction: column;
-    /* align-items:flex-end; */
     height:100%;
     flex:1;
 `;
 export const TopView = styled.View`
-    height: 68px;
+    min-height: 62px;
+    max-height: 68px;
     bottom: 0;
     background-color: #f8f8ff;
     justify-content: center;
@@ -34,7 +33,8 @@ export const ViewText = styled.Text`
 
 export const TitleView = styled.View`
     background-color: #ffffff;
-    height: 54px;
+    min-height: 48px;
+    max-height: 54px;
     justify-content: center;
 `;
 
@@ -94,7 +94,10 @@ export const CustomDatePicker = styled(DatePicker)`
 
 
 export const ButtonOptionsView = styled.View`
-  height: 68px;
+  position: absolute;
+  min-height: 62px;
+  max-height: 68px;
+  bottom: 44px;
   width: 100%;
   background-color: #ffffff;
   justify-content: space-between;
@@ -137,12 +140,15 @@ export const TextButton = styled.Text`
 `;
 
 export const BottomView = styled.View`
-    height: 44px;
+    min-height: 38px;
+    max-height: 44px;
+    position: absolute;
     bottom: 0;
     background-color: black;
     justify-content: center;
     width: 100%;
 `;
+
 export const BottomViewText = styled.Text`
     font-size: 16px;
     color: #ffffff;
